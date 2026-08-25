@@ -6,6 +6,7 @@ import { motion, Variants } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
 import { projects } from "@/data/projects";
 import { Button } from "@/components/ui/Button";
+import { Magnetic } from "@/components/Magnetic";
 
 const FADE_UP_ANIMATION_VARIANTS: Variants = {
   hidden: { opacity: 0, y: 10 },
@@ -55,15 +56,19 @@ export default function Home() {
             </motion.p>
             
             <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex flex-wrap gap-4 pt-4">
-              <Button asChild size="lg" className="rounded-none">
-                <Link href="/work">
-                  View My Work
-                  <ArrowRight size={16} className="ml-2" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-none">
-                <Link href="/about">About Me</Link>
-              </Button>
+              <Magnetic strength={20}>
+                <Button asChild size="lg" className="rounded-none">
+                  <Link href="/work">
+                    View My Work
+                    <ArrowRight size={16} className="ml-2" />
+                  </Link>
+                </Button>
+              </Magnetic>
+              <Magnetic strength={20}>
+                <Button asChild variant="outline" size="lg" className="rounded-none">
+                  <Link href="/about">About Me</Link>
+                </Button>
+              </Magnetic>
             </motion.div>
           </div>
           

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
-import { Navigation } from "@/components/Navigation";
+import { PageWrapper } from "@/components/PageWrapper";
 import "./globals.css";
 
 const inter = Inter({
@@ -31,8 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-white`}
     >
       <body className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-1">{children}</main>
+        <PageWrapper>{children}</PageWrapper>
       </body>
     </html>
   );

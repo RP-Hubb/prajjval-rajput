@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Magnetic } from "./Magnetic";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -29,24 +30,25 @@ export function Navigation() {
           {navItems.map((item) => {
             const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
             return (
-              <Link
-                key={item.path}
-                href={item.path}
-                className={cn(
-                  "relative px-3 py-1.5 text-sm font-medium transition-colors hover:text-foreground",
-                  isActive ? "text-foreground" : "text-muted hover:text-foreground"
-                )}
-              >
-                {item.name}
-                {isActive && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
-              </Link>
+              <Magnetic key={item.path} strength={10}>
+                <Link
+                  href={item.path}
+                  className={cn(
+                    "relative px-3 py-1.5 text-sm font-medium transition-colors hover:text-foreground",
+                    isActive ? "text-foreground" : "text-muted hover:text-foreground"
+                  )}
+                >
+                  {item.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-indicator"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              </Magnetic>
             );
           })}
         </nav>
