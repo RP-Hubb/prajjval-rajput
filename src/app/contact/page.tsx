@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { Mail, Code2 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Magnetic } from "@/components/Magnetic";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 10 },
@@ -55,16 +56,18 @@ export default function Contact() {
           {/* Email section */}
           <div className="flex flex-col gap-6">
             <h2 className="font-mono text-sm uppercase tracking-wider text-muted">Direct Contact</h2>
-            <a 
-              href="mailto:rraj21054@gmail.com"
-              className="group flex flex-col gap-2 p-6 bg-card border border-border hover:border-accent transition-colors"
-            >
-              <Mail size={24} className="text-foreground group-hover:text-accent transition-colors mb-2" />
-              <span className="text-lg font-medium text-foreground">rraj21054@gmail.com</span>
-              <span className="text-sm text-muted flex items-center gap-2">
-                Send an email <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">→</span>
-              </span>
-            </a>
+            <Magnetic strength={10}>
+              <a 
+                href="mailto:rraj21054@gmail.com"
+                className="group flex flex-col gap-2 p-6 bg-card border border-border hover:border-accent transition-colors block w-full"
+              >
+                <Mail size={24} className="text-foreground group-hover:text-accent transition-colors mb-2" />
+                <span className="text-lg font-medium text-foreground">rraj21054@gmail.com</span>
+                <span className="text-sm text-muted flex items-center gap-2">
+                  Send an email <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">→</span>
+                </span>
+              </a>
+            </Magnetic>
           </div>
 
           {/* Social Links */}
@@ -72,19 +75,20 @@ export default function Contact() {
             <h2 className="font-mono text-sm uppercase tracking-wider text-muted">Social Profiles</h2>
             <div className="flex flex-col gap-4">
               {links.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-4 bg-card border border-border hover:border-accent transition-colors"
-                >
-                  <div className="flex items-center gap-4 text-foreground group-hover:text-accent transition-colors">
-                    {link.icon}
-                    <span className="font-medium">{link.name}</span>
-                  </div>
-                  <span className="text-sm font-mono text-muted">{link.handle}</span>
-                </a>
+                <Magnetic key={link.name} strength={5}>
+                  <a 
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between p-4 bg-card border border-border hover:border-accent transition-colors block w-full"
+                  >
+                    <div className="flex items-center gap-4 text-foreground group-hover:text-accent transition-colors">
+                      {link.icon}
+                      <span className="font-medium">{link.name}</span>
+                    </div>
+                    <span className="text-sm font-mono text-muted">{link.handle}</span>
+                  </a>
+                </Magnetic>
               ))}
             </div>
           </div>

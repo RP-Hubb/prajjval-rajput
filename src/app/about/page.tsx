@@ -51,7 +51,7 @@ export default function About() {
             <h2>Experience</h2>
           </div>
           
-          <div className="flex flex-col gap-4 bg-card border border-border p-6 lg:p-8 relative">
+          <div className="flex flex-col gap-4 bg-card border border-border p-6 lg:p-8 relative hover:border-accent/50 transition-colors">
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
               <h3 className="text-xl font-medium text-foreground">ICMR–National Institute of Occupational Health (NIOH)</h3>
               <span className="text-sm font-mono text-muted">July 13–24, 2026</span>
@@ -71,12 +71,12 @@ export default function About() {
             <h2>Education</h2>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 p-6 bg-card border border-border hover:border-accent/50 transition-colors">
             <div className="flex flex-col gap-1">
               <h3 className="text-xl font-medium text-foreground">Sal Institute of Technology & Engineering Research</h3>
               <span className="text-muted">B.Tech in Computer Science and Engineering</span>
             </div>
-            <span className="text-sm font-mono text-muted border border-border px-2 py-1 rounded-sm">Class of 2027</span>
+            <span className="text-sm font-mono text-muted border border-border px-2 py-1 rounded-sm mt-4 sm:mt-0">Class of 2027</span>
           </div>
         </motion.section>
 
@@ -88,7 +88,7 @@ export default function About() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 bg-card p-6 border border-border hover:border-accent/50 transition-colors">
               <h3 className="font-mono text-sm uppercase tracking-wider text-muted border-b border-border pb-2">Core Stack</h3>
               <ul className="flex flex-col gap-2">
                 <li className="text-foreground">Python (FastAPI, Pandas, Scikit-Learn)</li>
@@ -97,7 +97,7 @@ export default function About() {
                 <li className="text-foreground">Tailwind CSS</li>
               </ul>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 bg-card p-6 border border-border hover:border-accent/50 transition-colors">
               <h3 className="font-mono text-sm uppercase tracking-wider text-muted border-b border-border pb-2">Domains</h3>
               <ul className="flex flex-col gap-2">
                 <li className="text-foreground">Backend Architecture</li>

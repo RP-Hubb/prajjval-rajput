@@ -5,6 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { projects } from "@/data/projects";
+import { useCursor } from "@/context/CursorContext";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 10 },
@@ -12,6 +13,8 @@ const FADE_UP: Variants = {
 };
 
 export default function Work() {
+  const { setCursorType, setCursorText } = useCursor();
+  
   const getProjectsByCategory = (category: string) => projects.filter(p => p.category === category);
   
   const flagship = getProjectsByCategory("Flagship")[0];
@@ -55,6 +58,11 @@ export default function Work() {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="group relative flex flex-col bg-card border border-border p-8 hover:bg-muted/5 transition-colors h-full"
+                onMouseEnter={() => {
+                  setCursorType("view");
+                  setCursorText("READ");
+                }}
+                onMouseLeave={() => setCursorType("default")}
               >
                 <div className="flex flex-col gap-3 mb-6">
                   <h3 className="text-3xl font-serif text-foreground group-hover:text-accent transition-colors">{project.title}</h3>
@@ -103,7 +111,14 @@ export default function Work() {
                   </span>
                 ))}
               </div>
-              <a href={quantLab.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors">
+              <a 
+                href={quantLab.github} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors w-max"
+                onMouseEnter={() => setCursorType("hover")}
+                onMouseLeave={() => setCursorType("default")}
+              >
                 <FaGithub size={16} /> View on GitHub
               </a>
             </div>
@@ -132,10 +147,17 @@ export default function Work() {
                   {project.description}
                 </p>
                 <div className="flex items-center justify-between mt-2">
-                  <div className="flex gap-2 text-xs font-mono text-muted">
+                  <div className="flex flex-wrap gap-2 text-xs font-mono text-muted">
                     {project.technologies.slice(0, 2).map(t => <span key={t}>{t}</span>)}
                   </div>
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-foreground">
+                  <a 
+                    href={project.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-muted hover:text-foreground p-2 -mr-2"
+                    onMouseEnter={() => setCursorType("hover")}
+                    onMouseLeave={() => setCursorType("default")}
+                  >
                     <FaGithub size={16} />
                   </a>
                 </div>

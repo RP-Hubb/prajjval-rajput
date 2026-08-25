@@ -7,6 +7,7 @@ import { ArrowRight, Terminal } from "lucide-react";
 import { projects } from "@/data/projects";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/Magnetic";
+import { useCursor } from "@/context/CursorContext";
 
 const FADE_UP_ANIMATION_VARIANTS: Variants = {
   hidden: { opacity: 0, y: 10 },
@@ -16,6 +17,7 @@ const FADE_UP_ANIMATION_VARIANTS: Variants = {
 export default function Home() {
   const flagshipProject = projects.find(p => p.id === "asthma-v2");
   const featuredProject = projects.find(p => p.id === "dsa-visualizer");
+  const { setCursorType, setCursorText } = useCursor();
 
   return (
     <div className="flex flex-col gap-24 pb-24">
@@ -73,7 +75,14 @@ export default function Home() {
           </div>
           
           <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="col-span-1 lg:col-span-5 relative flex justify-center lg:justify-end">
-            <div className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem]">
+            <div 
+              className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem]"
+              onMouseEnter={() => {
+                setCursorType("view");
+                setCursorText("ME");
+              }}
+              onMouseLeave={() => setCursorType("default")}
+            >
               {/* Decorative offset background */}
               <div className="absolute inset-0 bg-accent/10 translate-x-4 translate-y-4 -z-10" />
               <div className="absolute inset-0 border border-border bg-card overflow-hidden">
@@ -101,7 +110,12 @@ export default function Home() {
         >
           <div className="flex items-baseline justify-between mb-12 border-b border-border pb-4">
             <h2 className="text-3xl font-serif text-foreground">Selected Work</h2>
-            <Link href="/work" className="text-sm font-mono text-muted hover:text-foreground hover:underline underline-offset-4 flex items-center gap-1">
+            <Link 
+              href="/work" 
+              className="text-sm font-mono text-muted hover:text-foreground hover:underline underline-offset-4 flex items-center gap-1"
+              onMouseEnter={() => setCursorType("hover")}
+              onMouseLeave={() => setCursorType("default")}
+            >
               View all <ArrowRight size={14} />
             </Link>
           </div>
@@ -109,7 +123,14 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Flagship Project */}
             {flagshipProject && (
-              <div className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors">
+              <div 
+                className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors"
+                onMouseEnter={() => {
+                  setCursorType("view");
+                  setCursorText("READ");
+                }}
+                onMouseLeave={() => setCursorType("default")}
+              >
                 <div className="flex flex-col gap-2">
                   <div className="font-mono text-xs text-accent uppercase tracking-wider">{flagshipProject.category}</div>
                   <h3 className="text-2xl font-serif font-medium text-foreground group-hover:text-accent transition-colors">
@@ -137,7 +158,14 @@ export default function Home() {
 
             {/* Featured Project */}
             {featuredProject && (
-              <div className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors">
+              <div 
+                className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors"
+                onMouseEnter={() => {
+                  setCursorType("view");
+                  setCursorText("READ");
+                }}
+                onMouseLeave={() => setCursorType("default")}
+              >
                 <div className="flex flex-col gap-2">
                   <div className="font-mono text-xs text-muted uppercase tracking-wider">{featuredProject.category}</div>
                   <h3 className="text-2xl font-serif font-medium text-foreground group-hover:text-accent transition-colors">
