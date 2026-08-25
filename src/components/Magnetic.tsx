@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useCursor } from "@/context/CursorContext";
 
 export function Magnetic({
   children,
@@ -12,6 +13,7 @@ export function Magnetic({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const { setCursorType } = useCursor();
 
   const handleMouse = (e: React.MouseEvent) => {
     if (!ref.current) return;
@@ -22,8 +24,13 @@ export function Magnetic({
     setPosition({ x: middleX * (strength / 100), y: middleY * (strength / 100) });
   };
 
+  const handleMouseEnter = () => {
+    setCursorType("hover");
+  };
+
   const reset = () => {
     setPosition({ x: 0, y: 0 });
+    setCursorType("default");
   };
 
   const { x, y } = position;
@@ -31,6 +38,7 @@ export function Magnetic({
     <motion.div
       ref={ref}
       onMouseMove={handleMouse}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={reset}
       animate={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}

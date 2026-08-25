@@ -10,17 +10,17 @@ import { Magnetic } from "@/components/Magnetic";
 import { useCursor } from "@/context/CursorContext";
 
 const FADE_UP_ANIMATION_VARIANTS: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } },
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
 };
 
 export default function Home() {
   const flagshipProject = projects.find(p => p.id === "asthma-v2");
   const featuredProject = projects.find(p => p.id === "dsa-visualizer");
-  const { setCursorType, setCursorText } = useCursor();
+  const { setCursorType } = useCursor();
 
   return (
-    <div className="flex flex-col gap-24 pb-24">
+    <div className="flex flex-col gap-24 pb-24 overflow-hidden">
       {/* Hero Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-32">
         <motion.div 
@@ -31,35 +31,35 @@ export default function Home() {
             hidden: {},
             show: {
               transition: {
-                staggerChildren: 0.15,
+                staggerChildren: 0.1,
               },
             },
           }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
         >
-          <div className="col-span-1 lg:col-span-7 flex flex-col gap-8">
-            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex items-center gap-2 text-muted font-mono text-sm uppercase tracking-wider">
-              <Terminal size={16} />
+          <div className="col-span-1 lg:col-span-7 flex flex-col gap-6">
+            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex items-center gap-2 text-accent font-mono text-xs uppercase tracking-[0.2em] font-bold">
+              <Terminal size={14} className="text-foreground" />
               <span>Prajjval Rajput</span>
             </motion.div>
             
             <motion.h1 
               variants={FADE_UP_ANIMATION_VARIANTS} 
-              className="text-4xl sm:text-5xl lg:text-7xl font-serif font-medium leading-[1.1] text-foreground"
+              className="text-5xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tighter leading-[0.9] text-foreground"
             >
-              Python developer who ships full pipelines.
+              PYTHON DEVELOPER <span className="text-outline-accent">SHIPPING PIPELINES.</span>
             </motion.h1>
             
             <motion.p 
               variants={FADE_UP_ANIMATION_VARIANTS} 
-              className="text-lg lg:text-xl text-muted max-w-2xl leading-relaxed"
+              className="text-lg lg:text-xl text-muted max-w-2xl leading-relaxed font-mono mt-4"
             >
               From complex data to deployed interfaces — I build rigorous, analytical, and interactive software. Not just notebooks.
             </motion.p>
             
-            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex flex-wrap gap-4 pt-4">
+            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex flex-wrap gap-4 pt-8">
               <Magnetic strength={20}>
-                <Button asChild size="lg" className="rounded-none">
+                <Button asChild size="lg">
                   <Link href="/work">
                     View My Work
                     <ArrowRight size={16} className="ml-2" />
@@ -67,7 +67,7 @@ export default function Home() {
                 </Button>
               </Magnetic>
               <Magnetic strength={20}>
-                <Button asChild variant="outline" size="lg" className="rounded-none">
+                <Button asChild variant="outline" size="lg">
                   <Link href="/about">About Me</Link>
                 </Button>
               </Magnetic>
@@ -75,17 +75,10 @@ export default function Home() {
           </div>
           
           <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="col-span-1 lg:col-span-5 relative flex justify-center lg:justify-end">
-            <div 
-              className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem]"
-              onMouseEnter={() => {
-                setCursorType("view");
-                setCursorText("ME");
-              }}
-              onMouseLeave={() => setCursorType("default")}
-            >
-              {/* Decorative offset background */}
-              <div className="absolute inset-0 bg-accent/10 translate-x-4 translate-y-4 -z-10" />
-              <div className="absolute inset-0 border border-border bg-card overflow-hidden">
+            <div className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem]">
+              {/* Brutalist Shadow / Offset border */}
+              <div className="absolute inset-0 border-4 border-accent translate-x-4 translate-y-4" />
+              <div className="absolute inset-0 border-4 border-border bg-card overflow-hidden">
                 <Image
                   src="/photo.png"
                   alt="Prajjval Rajput"
@@ -100,6 +93,32 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Marquee Ticker */}
+      <div className="w-full border-y-4 border-border overflow-hidden bg-accent text-black py-4 flex flex-nowrap items-center font-bold uppercase font-mono tracking-widest text-2xl whitespace-nowrap">
+        <motion.div 
+          className="flex gap-8 px-4"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+        >
+          <span>PYTHON DEVELOPER</span>
+          <span>•</span>
+          <span>DATA ARCHITECTURE</span>
+          <span>•</span>
+          <span>RIGOROUS ENGINEERING</span>
+          <span>•</span>
+          <span>NEXT.JS FRONTENDS</span>
+          <span>•</span>
+          <span>PYTHON DEVELOPER</span>
+          <span>•</span>
+          <span>DATA ARCHITECTURE</span>
+          <span>•</span>
+          <span>RIGOROUS ENGINEERING</span>
+          <span>•</span>
+          <span>NEXT.JS FRONTENDS</span>
+          <span>•</span>
+        </motion.div>
+      </div>
+
       {/* Featured Work Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -108,15 +127,15 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-baseline justify-between mb-12 border-b border-border pb-4">
-            <h2 className="text-3xl font-serif text-foreground">Selected Work</h2>
+          <div className="flex items-baseline justify-between mb-12 border-b-4 border-border pb-4">
+            <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight text-foreground">Selected Work</h2>
             <Link 
               href="/work" 
-              className="text-sm font-mono text-muted hover:text-foreground hover:underline underline-offset-4 flex items-center gap-1"
+              className="text-sm font-mono font-bold text-accent hover:text-white uppercase tracking-wider flex items-center gap-2"
               onMouseEnter={() => setCursorType("hover")}
               onMouseLeave={() => setCursorType("default")}
             >
-              View all <ArrowRight size={14} />
+              View all <ArrowRight size={16} />
             </Link>
           </div>
 
@@ -124,27 +143,26 @@ export default function Home() {
             {/* Flagship Project */}
             {flagshipProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors"
-                onMouseEnter={() => {
-                  setCursorType("view");
-                  setCursorText("READ");
-                }}
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-white transition-all duration-300"
+                onMouseEnter={() => setCursorType("hover")}
                 onMouseLeave={() => setCursorType("default")}
               >
                 <div className="flex flex-col gap-2">
-                  <div className="font-mono text-xs text-accent uppercase tracking-wider">{flagshipProject.category}</div>
-                  <h3 className="text-2xl font-serif font-medium text-foreground group-hover:text-accent transition-colors">
+                  <div className="font-mono text-xs font-bold text-accent uppercase tracking-widest bg-black px-2 py-1 w-max border-2 border-accent">
+                    {flagshipProject.category}
+                  </div>
+                  <h3 className="text-3xl font-bold uppercase tracking-tight text-foreground group-hover:text-accent transition-colors mt-4">
                     {flagshipProject.title}
                   </h3>
                 </div>
                 
-                <p className="text-muted leading-relaxed flex-1">
+                <p className="text-muted leading-relaxed flex-1 font-mono text-sm">
                   {flagshipProject.description}
                 </p>
 
                 <div className="flex flex-wrap gap-2 mt-auto pt-6">
                   {flagshipProject.technologies.slice(0, 4).map(tech => (
-                    <span key={tech} className="text-xs font-mono bg-muted/10 text-foreground px-2 py-1 border border-border/50">
+                    <span key={tech} className="text-xs font-mono font-bold bg-muted/10 text-foreground px-2 py-1 border border-border">
                       {tech}
                     </span>
                   ))}
@@ -159,27 +177,26 @@ export default function Home() {
             {/* Featured Project */}
             {featuredProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border border-border p-6 lg:p-8 hover:border-accent/50 transition-colors"
-                onMouseEnter={() => {
-                  setCursorType("view");
-                  setCursorText("READ");
-                }}
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-white transition-all duration-300"
+                onMouseEnter={() => setCursorType("hover")}
                 onMouseLeave={() => setCursorType("default")}
               >
                 <div className="flex flex-col gap-2">
-                  <div className="font-mono text-xs text-muted uppercase tracking-wider">{featuredProject.category}</div>
-                  <h3 className="text-2xl font-serif font-medium text-foreground group-hover:text-accent transition-colors">
+                  <div className="font-mono text-xs font-bold text-muted uppercase tracking-widest bg-black px-2 py-1 w-max border-2 border-border group-hover:border-accent group-hover:text-accent transition-colors">
+                    {featuredProject.category}
+                  </div>
+                  <h3 className="text-3xl font-bold uppercase tracking-tight text-foreground group-hover:text-accent transition-colors mt-4">
                     {featuredProject.title}
                   </h3>
                 </div>
                 
-                <p className="text-muted leading-relaxed flex-1">
+                <p className="text-muted leading-relaxed flex-1 font-mono text-sm">
                   {featuredProject.description}
                 </p>
 
                 <div className="flex flex-wrap gap-2 mt-auto pt-6">
                   {featuredProject.technologies.slice(0, 4).map(tech => (
-                    <span key={tech} className="text-xs font-mono bg-muted/10 text-foreground px-2 py-1 border border-border/50">
+                    <span key={tech} className="text-xs font-mono font-bold bg-muted/10 text-foreground px-2 py-1 border border-border">
                       {tech}
                     </span>
                   ))}

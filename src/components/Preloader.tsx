@@ -1,78 +1,105 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 
 const words = ["DATA", "LOGIC", "ARCHITECTURE", "RIGOR", "PYTHON"];
 
 export function Preloader({ onComplete }: { onComplete: () => void }) {
-  const [index, setIndex] = useState(0);
-  const [counter, setCounter] = useState(0);
+  const container = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const numberRef = useRef<HTMLSpanElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const [currentWord, setCurrentWord] = useState(words[0]);
 
-  useEffect(() => {
-    // Word flashing interval
-    const wordInterval = setInterval(() => {
-      setIndex((prev) => (prev < words.length - 1 ? prev + 1 : prev));
-    }, 200);
-
-    // Number counter interval (0 to 100)
-    const countInterval = setInterval(() => {
-      setCounter((prev) => {
-        if (prev >= 100) {
-          clearInterval(countInterval);
-          return 100;
-        }
-        return prev + 2; // Speed up counting
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          // Allow a brief pause before sliding out
+          setTimeout(() => onComplete(), 800);
+        },
       });
-    }, 20);
 
-    // End preloader
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 2000);
+      // 1. Initial fade in of the big number
+      tl.fromTo(
+        numberRef.current,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 0.1, scale: 1, duration: 2.5, ease: "power2.out" }
+      );
 
-    return () => {
-      clearInterval(wordInterval);
-      clearInterval(countInterval);
-      clearTimeout(timer);
-    };
-  }, [onComplete]);
+      // 2. Progress bar animation
+      tl.fromTo(
+        progressRef.current,
+        { width: "0%" },
+        { width: "100%", duration: 4.5, ease: "power2.inOut" },
+        "<" // Start at the same time as the number
+      );
+
+      // 3. Word flashing sequence (manual intervals via GSAP call)
+      const timePerWord = 4.5 / words.length; // Spread words over 4.5 seconds
+      
+      words.forEach((word, i) => {
+        tl.call(() => {
+          setCurrentWord(word);
+          // Small text pop effect
+          gsap.fromTo(
+            textRef.current,
+            { y: 15, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
+          );
+        }, [], i * timePerWord);
+      });
+
+      // 4. Final fade out of the inner content before the exit animation
+      tl.to(
+        [textRef.current, numberRef.current, progressRef.current],
+        { opacity: 0, y: -20, duration: 0.8, ease: "power2.in", stagger: 0.15 },
+        "+=0.4"
+      );
+    },
+    { scope: container }
+  );
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-foreground text-background"
+      ref={container}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-white"
       initial={{ y: 0 }}
       exit={{
         y: "-100vh",
-        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
+        transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
       }}
     >
-      <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <span className="text-[15rem] md:text-[30rem] font-serif font-bold tracking-tighter mix-blend-overlay">
-          {counter}
+      {/* Huge Background Number */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+        <span
+          ref={numberRef}
+          className="text-[15rem] md:text-[30rem] font-bold uppercase tracking-tighter text-outline opacity-0"
+        >
+          00
         </span>
       </div>
 
-      <div className="z-10 flex flex-col items-center gap-4">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.1 }}
-            className="text-4xl md:text-6xl font-mono uppercase tracking-widest"
-          >
-            {words[index]}
-          </motion.div>
-        </AnimatePresence>
+      <div className="z-10 flex flex-col items-center gap-6">
+        {/* Flashing Words */}
+        <div 
+          ref={textRef} 
+          className="text-4xl md:text-7xl font-bold uppercase tracking-tighter"
+        >
+          {currentWord}
+        </div>
         
-        <div className="h-px w-24 bg-background/30 overflow-hidden relative">
-          <motion.div
-            className="absolute top-0 left-0 h-full bg-background"
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 1.8, ease: "easeInOut" }}
+        {/* Brutalist Progress Bar */}
+        <div className="h-4 w-48 border-2 border-white/20 overflow-hidden relative">
+          <div
+            ref={progressRef}
+            className="absolute top-0 left-0 h-full bg-[#ccff00]"
+            style={{ width: "0%" }}
           />
         </div>
       </div>

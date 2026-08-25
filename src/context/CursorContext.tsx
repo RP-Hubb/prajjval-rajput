@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
 type CursorState = "default" | "hover" | "view" | "hidden";
 
@@ -16,6 +17,12 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 export function CursorProvider({ children }: { children: ReactNode }) {
   const [cursorType, setCursorType] = useState<CursorState>("default");
   const [cursorText, setCursorText] = useState("");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Reset cursor when route changes
+    setCursorType("default");
+  }, [pathname]);
 
   return (
     <CursorContext.Provider value={{ cursorType, setCursorType, cursorText, setCursorText }}>

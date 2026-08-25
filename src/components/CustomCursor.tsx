@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useCursor } from "@/context/CursorContext";
 
 export function CustomCursor() {
-  const { cursorType, cursorText } = useCursor();
   const [isVisible, setIsVisible] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
 
   // Use MotionValues to avoid React re-renders on mousemove
   const cursorX = useMotionValue(-100);
@@ -25,13 +24,21 @@ export function CustomCursor() {
     };
 
     const handleMouseLeave = () => setIsVisible(false);
+    
+    // Click effects
+    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseUp = () => setIsClicking(false);
 
     window.addEventListener("mousemove", updateMousePosition);
     document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isVisible, cursorX, cursorY]);
 
@@ -40,62 +47,32 @@ export function CustomCursor() {
     return null;
   }
 
-  // Define variants for different cursor states
+  // Define variants for different cursor states, integrating click logic
   const variants = {
     default: {
-      width: 16,
-      height: 16,
-      x: "-50%",
-      y: "-50%",
-      backgroundColor: "#ffffff", // Pure white for high contrast
-      mixBlendMode: "difference" as const,
-      opacity: isVisible ? 1 : 0,
-    },
-    hover: {
-      width: 64,
-      height: 64,
-      x: "-50%",
-      y: "-50%",
-      backgroundColor: "#ffffff",
-      mixBlendMode: "difference" as const,
-      opacity: isVisible ? 1 : 0,
-    },
-    view: {
-      width: 80,
-      height: 80,
-      x: "-50%",
-      y: "-50%",
-      backgroundColor: "var(--color-accent)", // Pop of color
+      width: isClicking ? 8 : 16,
+      height: isClicking ? 8 : 16,
+      backgroundColor: "var(--color-accent)",
       mixBlendMode: "normal" as const,
       opacity: isVisible ? 1 : 0,
-    },
-    hidden: {
-      opacity: 0,
     }
   };
 
   return (
     <motion.div
-      className="fixed top-0 left-0 z-[9999] pointer-events-none rounded-full flex items-center justify-center text-white font-mono text-xs font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+      className="fixed top-0 left-0 z-[99999] pointer-events-none"
       style={{
         x: smoothX,
         y: smoothY,
       }}
-      variants={variants}
-      animate={cursorType}
-      initial="hidden"
-      transition={{ type: "tween", ease: "backOut", duration: 0.3 }}
     >
-      {cursorType === "view" && (
-        <motion.span
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          className="uppercase tracking-widest text-[10px]"
-        >
-          {cursorText || "View"}
-        </motion.span>
-      )}
+      <motion.div
+        className="relative -left-1/2 -top-1/2 rounded-full flex items-center justify-center text-white font-mono text-xs font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+        variants={variants}
+        animate="default"
+        initial="hidden"
+        transition={{ type: "tween", ease: "backOut", duration: 0.3 }}
+      />
     </motion.div>
   );
 }

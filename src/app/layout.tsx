@@ -1,50 +1,51 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
-import { PageWrapper } from "@/components/PageWrapper";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { Noise } from "@/components/Noise";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
 import { CursorProvider } from "@/context/CursorContext";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Navigation } from "@/components/Navigation";
-import "./globals.css";
+import { PageWrapper } from "@/components/PageWrapper";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { Noise } from "@/components/Noise";
 
-const inter = Inter({
-  variable: "--font-inter",
+const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
+  variable: "--font-outfit",
+  weight: ["300", "400", "500", "600", "700"]
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const jetbrainsMono = JetBrains_Mono({ 
   subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
   title: "Prajjval Rajput | Python Developer",
-  description: "Portfolio of Prajjval Rajput, a Python developer shipping full pipelines.",
+  description: "Python developer specializing in data architecture and rigorous engineering.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-white`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-black`}
+      suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col cursor-none bg-background relative overflow-x-hidden">
-        {/* Ambient Glows */}
-        <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-accent/20 blur-[120px] pointer-events-none -z-20" />
-        <div className="fixed bottom-[-20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none -z-20" />
-        
+      <body className="min-h-screen flex flex-col cursor-none bg-background relative overflow-x-hidden" suppressHydrationWarning>
+        <Noise />
         <CursorProvider>
+          <CustomCursor />
           <SmoothScroll>
-            <Noise />
-            <CustomCursor />
-            <PageWrapper>{children}</PageWrapper>
+            <Navigation />
+            <PageWrapper>
+              <main className="flex-1 w-full pt-16 z-10 relative">
+                {children}
+              </main>
+            </PageWrapper>
           </SmoothScroll>
         </CursorProvider>
       </body>

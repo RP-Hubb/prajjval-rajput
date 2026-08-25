@@ -18,15 +18,15 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 w-full bg-background border-b-4 border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link 
           href="/" 
-          className="font-serif text-xl font-bold tracking-tight text-foreground"
+          className="font-bold text-2xl uppercase tracking-tighter text-foreground hover:text-accent transition-colors"
         >
-          Prajjval Rajput
+          PRAJJVAL RAJPUT
         </Link>
-        <nav className="flex gap-1">
+        <nav className="flex gap-4">
           {navItems.map((item) => {
             const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
             return (
@@ -34,15 +34,15 @@ export function Navigation() {
                 <Link
                   href={item.path}
                   className={cn(
-                    "relative px-3 py-1.5 text-sm font-medium transition-colors hover:text-foreground",
-                    isActive ? "text-foreground" : "text-muted hover:text-foreground"
+                    "relative px-3 py-1.5 font-mono text-sm font-bold uppercase tracking-widest transition-colors hover:text-accent",
+                    isActive ? "text-accent" : "text-muted"
                   )}
                 >
                   {item.name}
                   {isActive && (
                     <motion.div
                       layoutId="navbar-indicator"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
+                      className="absolute bottom-0 left-0 right-0 h-1 bg-accent"
                       initial={false}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />

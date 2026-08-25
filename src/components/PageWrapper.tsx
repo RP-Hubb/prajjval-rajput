@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Preloader } from "./Preloader";
-import { Navigation } from "./Navigation";
 
 export function PageWrapper({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,8 +27,7 @@ export function PageWrapper({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       <div className={`transition-opacity duration-1000 ${isLoading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
-        <Navigation />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full">{children}</main>
       </div>
     </>
   );
