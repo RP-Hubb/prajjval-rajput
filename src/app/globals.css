@@ -15,7 +15,20 @@
 
 @layer base {
   :root {
-    /* Stark Brutalist Theme */
+    /* Light Mode Brutalist Theme */
+    --color-background: #f5f5f5; /* Off-White */
+    --color-foreground: #0a0a0a; /* Stark Black */
+    
+    /* Neon Accent (Electric Orange for light mode contrast or keep Lime) */
+    --color-accent: #ff4500; /* Electric Orange for Light Mode */
+    
+    --color-muted: #555555;
+    --color-border: #000000;
+    --color-card: #ffffff;
+  }
+
+  .dark {
+    /* Dark Mode Brutalist Theme */
     --color-background: #0a0a0a; /* Stark Black */
     --color-foreground: #ffffff; /* Pure White */
     
@@ -39,8 +52,8 @@
   .brutalist-shadow {
     box-shadow: 4px 4px 0px 0px var(--color-accent);
   }
-  .brutalist-shadow-white {
-    box-shadow: 4px 4px 0px 0px #ffffff;
+  .brutalist-shadow-hover {
+    box-shadow: 4px 4px 0px 0px var(--color-foreground);
   }
   
   /* Text outline effect for huge headers */

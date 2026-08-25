@@ -19,6 +19,8 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export const metadata: Metadata = {
   title: "Prajjval Rajput | Python Developer",
   description: "Python developer specializing in data architecture and rigorous engineering.",
@@ -36,18 +38,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col cursor-none bg-background relative overflow-x-hidden" suppressHydrationWarning>
-        <Noise />
-        <CursorProvider>
-          <CustomCursor />
-          <SmoothScroll>
-            <Navigation />
-            <PageWrapper>
-              <main className="flex-1 w-full pt-16 z-10 relative">
-                {children}
-              </main>
-            </PageWrapper>
-          </SmoothScroll>
-        </CursorProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <Noise />
+          <CursorProvider>
+            <CustomCursor />
+            <SmoothScroll>
+              <Navigation />
+              <PageWrapper>
+                <main className="flex-1 w-full pt-16 z-10 relative">
+                  {children}
+                </main>
+              </PageWrapper>
+            </SmoothScroll>
+          </CursorProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

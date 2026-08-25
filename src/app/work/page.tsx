@@ -57,7 +57,7 @@ export default function Work() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative flex flex-col bg-card border-4 border-border p-8 hover:border-accent hover:brutalist-shadow-white transition-all duration-300 h-full"
+                className="group relative flex flex-col bg-card border-4 border-border p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 h-full"
                 onMouseEnter={() => setCursorType("hover")}
                 onMouseLeave={() => setCursorType("default")}
               >
@@ -101,7 +101,7 @@ export default function Work() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="group relative bg-card border-4 border-border p-8 lg:p-12 hover:border-accent hover:brutalist-shadow-white transition-all duration-300"
+            className="group relative bg-card border-4 border-border p-8 lg:p-12 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
           >
             <div className="max-w-2xl flex flex-col gap-6">
               <h3 className="text-4xl font-bold uppercase tracking-tight text-foreground">{quantLab.title}</h3>

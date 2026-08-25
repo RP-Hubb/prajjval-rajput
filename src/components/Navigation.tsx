@@ -14,6 +14,8 @@ const navItems = [
   { name: "Contact", path: "/contact" },
 ];
 
+import { ThemeToggle } from "./ThemeToggle";
+
 export function Navigation() {
   const pathname = usePathname();
 
@@ -26,32 +28,36 @@ export function Navigation() {
         >
           PRAJJVAL RAJPUT
         </Link>
-        <nav className="flex gap-4">
-          {navItems.map((item) => {
-            const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
-            return (
-              <Magnetic key={item.path} strength={10}>
-                <Link
-                  href={item.path}
-                  className={cn(
-                    "relative px-3 py-1.5 font-mono text-sm font-bold uppercase tracking-widest transition-colors hover:text-accent",
-                    isActive ? "text-accent" : "text-muted"
-                  )}
-                >
-                  {item.name}
-                  {isActive && (
-                    <motion.div
-                      layoutId="navbar-indicator"
-                      className="absolute bottom-0 left-0 right-0 h-1 bg-accent"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              </Magnetic>
-            );
-          })}
-        </nav>
+        <div className="flex items-center gap-6">
+          <nav className="flex gap-4">
+            {navItems.map((item) => {
+              const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
+              return (
+                <Magnetic key={item.path} strength={10}>
+                  <Link
+                    href={item.path}
+                    className={cn(
+                      "relative px-3 py-1.5 font-mono text-sm font-bold uppercase tracking-widest transition-colors hover:text-accent",
+                      isActive ? "text-accent" : "text-muted"
+                    )}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-indicator"
+                        className="absolute bottom-0 left-0 right-0 h-1 bg-accent"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </Magnetic>
+              );
+            })}
+          </nav>
+          <div className="h-8 w-[2px] bg-border mx-2" />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

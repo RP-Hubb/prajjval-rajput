@@ -84,7 +84,7 @@ export default function Home() {
                   alt="Prajjval Rajput"
                   fill
                   priority
-                  className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
+                  className="object-cover object-center transition-all duration-700"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
@@ -143,7 +143,7 @@ export default function Home() {
             {/* Flagship Project */}
             {flagshipProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-white transition-all duration-300"
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
                 onMouseEnter={() => setCursorType("hover")}
                 onMouseLeave={() => setCursorType("default")}
               >
@@ -177,7 +177,7 @@ export default function Home() {
             {/* Featured Project */}
             {featuredProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-white transition-all duration-300"
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
                 onMouseEnter={() => setCursorType("hover")}
                 onMouseLeave={() => setCursorType("default")}
               >
