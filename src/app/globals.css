@@ -77,3 +77,36 @@ body {
 * {
   border-radius: 0 !important;
 }
+
+/* Force hide the Next.js Dev Indicator */
+nextjs-portal {
+  display: none !important;
+}
+
+/* View Transitions for Theme Toggle Ripple */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* We only animate the new view if the class is applied */
+::view-transition-new(root) {
+  animation: theme-ripple 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+.dark::view-transition-new(root) {
+  z-index: 9999;
+}
+
+@keyframes theme-ripple {
+  0% {
+    clip-path: circle(0px at var(--theme-x) var(--theme-y));
+  }
+  100% {
+    clip-path: circle(var(--theme-radius) at var(--theme-x) var(--theme-y));
+  }
+}
