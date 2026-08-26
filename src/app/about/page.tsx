@@ -35,11 +35,11 @@ export default function About() {
         <motion.div variants={FADE_UP} className="prose prose-lg prose-neutral dark:prose-invert">
           <p className="text-muted leading-relaxed">
             I am a Python developer driven by a fascination with data, analytical problem-solving, and robust engineering. 
-            My approach to development is holistic: I don't just write scripts or train models in isolation. I build full pipelines, 
+            My approach to development is holistic: I don&apos;t just write scripts or train models in isolation. I build full pipelines, 
             taking concepts from raw data and algorithms all the way to deployed, interactive interfaces.
           </p>
           <p className="text-muted leading-relaxed mt-4">
-            Whether it's structuring a machine learning backend with FastAPI, experimenting with quantitative models, or 
+            Whether it&apos;s structuring a machine learning backend with FastAPI, experimenting with quantitative models, or 
             engineering an interactive frontend in React, I focus on the intersection of analytical rigor and human-centered design.
           </p>
         </motion.div>

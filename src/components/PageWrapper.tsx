@@ -8,7 +8,7 @@ export function PageWrapper({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Intentionally removed sessionStorage check so preloader plays on every refresh
+    // Intentionally empty so preloader plays on every refresh
   }, []);
 
   const handleComplete = () => {

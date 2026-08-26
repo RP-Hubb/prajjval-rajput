@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/Button";
 type PageProps = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateStaticParams() {
+  return projects.map((p) => ({
+    id: p.id,
+  }));
+}
 
 export default async function ProjectPage({ params }: PageProps) {
   const { id } = await params;
@@ -34,7 +40,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </p>
         <ul>
           <li><strong>Backend (FastAPI):</strong> Chosen for its speed, automatic interactive API documentation, and native async support in Python. It serves the XGBoost model efficiently.</li>
-          <li><strong>Machine Learning Pipeline (Python, XGBoost, SHAP):</strong> After extensive EDA and model comparison, XGBoost was selected for its performance on tabular data. SHAP (SHapley Additive exPlanations) was integrated to ensure the model wasn't a "black box," outputting summary and bar plots to explain feature importance to clinicians.</li>
+          <li><strong>Machine Learning Pipeline (Python, XGBoost, SHAP):</strong> After extensive EDA and model comparison, XGBoost was selected for its performance on tabular data. SHAP (SHapley Additive exPlanations) was integrated to ensure the model wasn&apos;t a &quot;black box,&quot; outputting summary and bar plots to explain feature importance to clinicians.</li>
           <li><strong>Frontend (React + Vite):</strong> Provides a fast, interactive user interface for data input and visualization of the risk screening results.</li>
         </ul>
 
@@ -64,7 +70,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </p>
         <ul>
           <li><strong>State Management:</strong> Zustand provided a lightweight, fast global store to manage the step-by-step execution of algorithms.</li>
-          <li><strong>Animations:</strong> Framer Motion handles the smooth transitions of sorting bars and draggable graph nodes, making the algorithm's execution tangible.</li>
+          <li><strong>Animations:</strong> Framer Motion handles the smooth transitions of sorting bars and draggable graph nodes, making the algorithm&apos;s execution tangible.</li>
           <li><strong>Interactive Graphs:</strong> Implementing BFS and DFS visualizers required a custom node/edge system where nodes are draggable, and edges dynamically update their positions.</li>
         </ul>
 

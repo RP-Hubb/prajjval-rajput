@@ -83,15 +83,18 @@ a, button, [role="button"], input, select, textarea, label {
   cursor: none !important;
 }
 
+/* Ensure keyboard accessibility since we stripped default outlines in many places */
+:focus-visible {
+  outline: 2px solid var(--color-accent) !important;
+  outline-offset: 4px;
+}
+
 /* Remove all border radii globally for the brutalist feel */
 * {
   border-radius: 0 !important;
 }
 
-/* Force hide the Next.js Dev Indicator */
-nextjs-portal {
-  display: none !important;
-}
+
 
 /* View Transitions for Theme Toggle Ripple */
 ::view-transition-old(root),

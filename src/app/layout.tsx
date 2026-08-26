@@ -22,8 +22,29 @@ const jetbrainsMono = JetBrains_Mono({
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Prajjval Rajput | Python Developer",
+  metadataBase: new URL("https://prajjvalrajput.com"),
+  title: {
+    default: "Prajjval Rajput | Python Developer",
+    template: "%s | Prajjval Rajput",
+  },
   description: "Python developer specializing in data architecture and rigorous engineering.",
+  openGraph: {
+    title: "Prajjval Rajput | Python Developer",
+    description: "Python developer specializing in data architecture and rigorous engineering.",
+    url: "https://prajjvalrajput.com",
+    siteName: "Prajjval Rajput Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Prajjval Rajput | Python Developer",
+    description: "Python developer specializing in data architecture and rigorous engineering.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

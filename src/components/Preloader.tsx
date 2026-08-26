@@ -1,67 +1,114 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+
+function ScrambleText({ text, duration }: { text: string; duration: number }) {
+  // Initialize with the target text to maintain purity for SSR/hydration. 
+  // The useEffect will instantly scramble it on mount.
+  const [displayText, setDisplayText] = useState(text);
+  
+  useEffect(() => {
+    let frame = 0;
+    const totalFrames = (duration / 1000) * 60; // Assuming 60fps
+    let animationFrame: number;
+
+    const animate = () => {
+      frame++;
+      const progress = frame / totalFrames;
+      
+      let newText = "";
+      for (let i = 0; i < text.length; i++) {
+        // Calculate when this specific character should lock in
+        // We stagger them so they lock from left to right
+        const lockInPoint = (i / text.length) * 0.8; // finish locking by 80% of the total duration
+        
+        if (text[i] === " ") {
+          newText += " ";
+        } else if (progress > lockInPoint) {
+          // Locked in
+          newText += text[i];
+        } else {
+          // Still scrambling
+          newText += CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+      }
+      
+      setDisplayText(newText);
+
+      if (frame < totalFrames) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setDisplayText(text); // Ensure final state is exactly the target
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => cancelAnimationFrame(animationFrame);
+  }, [text, duration]);
+
+  // Render the text with the locked characters highlighted (optional)
+  return (
+    <span className="font-mono tracking-widest break-all">
+      {displayText.split("").map((char, i) => {
+        const isLocked = char === text[i];
+        const isSpace = char === " ";
+        return (
+          <span 
+            key={i} 
+            className={isLocked ? "text-foreground" : "text-accent opacity-70"}
+            style={{ width: isSpace ? '0.5em' : 'auto', display: 'inline-block' }}
+          >
+            {char}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 export function Preloader({ onComplete }: { onComplete: () => void }) {
   const container = useRef<HTMLDivElement>(null);
-  const numberRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const scanlineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const tl = gsap.timeline({
         onComplete: () => {
-          onComplete(); // Fire exit transition
+          onComplete(); 
         },
       });
 
-      // 1. Percentage counter (0 to 100) taking exactly 2.4 seconds
-      const counter = { val: 0 };
-      tl.to(
-        counter,
-        {
-          val: 100,
-          duration: 2.4,
-          ease: "power3.inOut",
-          onUpdate: () => {
-            if (numberRef.current) {
-              const val = Math.round(counter.val);
-              // Pad with zeros for that technical look
-              numberRef.current.innerHTML = val < 10 ? `00${val}` : val < 100 ? `0${val}` : `${val}`;
-            }
-          },
-        },
-        0
-      );
-
-      // 2. Progress bar syncing with the counter
+      // 1. Progress bar syncing with the decryption time (2.4s)
       tl.to(
         progressRef.current,
-        { width: "100%", duration: 2.4, ease: "power3.inOut" },
+        { width: "100%", duration: 2.4, ease: "power2.inOut" },
+        0
+      );
+      
+      // 2. Scanline effect
+      tl.to(
+        scanlineRef.current,
+        { y: "100vh", duration: 2.4, ease: "none", repeat: 0 },
         0
       );
 
-      // 3. Rajpu Prajjval name reveal with a slick blur & scale effect
-      tl.fromTo(
-        textRef.current,
-        { y: 50, opacity: 0, scale: 0.8, filter: "blur(10px)" },
-        { y: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.5, ease: "expo.out" },
-        0.5 // Start slightly after counter begins
-      );
-
-      // 4. Fade everything out fast right before 3 seconds
+      // 3. Brutalist exit slice (slice up extremely fast)
       tl.to(
         wrapperRef.current,
-        { opacity: 0, y: -40, duration: 0.5, ease: "power2.in" },
-        2.5 // Ends right at 3.0 seconds
+        { opacity: 0, scale: 0.95, duration: 0.2 },
+        2.5 
       );
+      
     },
     { scope: container }
   );
@@ -69,37 +116,47 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <motion.div
       ref={container}
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black text-white"
-      initial={{ y: 0 }}
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black overflow-hidden"
       exit={{
         y: "-100vh",
-        transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
+        transition: { duration: 0.5, ease: [0.85, 0, 0.15, 1] }, // sharp brutalist exit
       }}
     >
-      <div ref={wrapperRef} className="z-10 flex flex-col items-center gap-6 w-full px-8 relative">
-        {/* Technical Progress Bar at the top */}
-        <div className="h-[2px] w-full max-w-sm bg-white/10 relative overflow-hidden mb-8">
+      {/* Technical Grid Background */}
+      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+      
+      {/* Scanline */}
+      <div 
+        ref={scanlineRef}
+        className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-accent/10 to-transparent -translate-y-full blur-sm"
+      />
+
+      <div ref={wrapperRef} className="z-10 flex flex-col gap-12 w-full max-w-4xl px-8 relative">
+        
+        {/* Decode Container */}
+        <div className="flex flex-col gap-4">
+          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 bg-accent animate-pulse" />
+            Decrypting Identity...
+          </div>
+          
+          <div className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase leading-none flex flex-col">
+            <ScrambleText text="RAJPUT" duration={2400} />
+            <ScrambleText text="PRAJJVAL" duration={2400} />
+          </div>
+          
+          <div className="text-lg sm:text-2xl font-mono mt-4 text-muted border-l-4 border-accent pl-4">
+            <ScrambleText text="PYTHON DEVELOPER // DATA PIPELINES" duration={2400} />
+          </div>
+        </div>
+
+        {/* Technical Progress Bar */}
+        <div className="h-[2px] w-full bg-white/10 relative overflow-hidden mt-8">
           <div
             ref={progressRef}
-            className="absolute top-0 left-0 h-full bg-[#ccff00]"
+            className="absolute top-0 left-0 h-full bg-accent"
             style={{ width: "0%" }}
           />
-        </div>
-
-        {/* Large Name */}
-        <div 
-          ref={textRef} 
-          className="text-4xl sm:text-5xl md:text-7xl font-bold uppercase tracking-widest text-center"
-        >
-          RAJPUT PRAJJVAL
-        </div>
-
-        {/* Massive Percentage Counter */}
-        <div 
-          ref={numberRef}
-          className="text-[6rem] md:text-[10rem] font-bold uppercase tracking-tighter text-outline opacity-30 leading-none absolute top-1/2 -translate-y-1/2 -z-10"
-        >
-          000
         </div>
       </div>
     </motion.div>

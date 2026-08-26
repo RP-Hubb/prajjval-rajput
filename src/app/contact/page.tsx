@@ -45,10 +45,10 @@ export default function Contact() {
       >
         <div className="flex flex-col gap-6">
           <motion.h1 variants={FADE_UP} className="text-4xl sm:text-5xl lg:text-7xl font-serif font-medium leading-[1.1] text-foreground">
-            Let's build something rigorous.
+            Let&apos;s build something rigorous.
           </motion.h1>
           <motion.p variants={FADE_UP} className="text-xl text-muted leading-relaxed font-sans max-w-2xl">
-            Interested in collaboration, have a question, or just want to connect? I'm always open to discussing new engineering challenges.
+            Interested in collaboration, have a question, or just want to connect? I&apos;m always open to discussing new engineering challenges.
           </motion.p>
         </div>
 
