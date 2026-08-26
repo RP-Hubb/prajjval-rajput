@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { flushSync } from "react-dom";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCursor } from "@/context/CursorContext";
@@ -42,7 +43,9 @@ export function ThemeToggle() {
     document.documentElement.style.setProperty("--theme-radius", `${endRadius}px`);
 
     document.startViewTransition(() => {
-      setTheme(nextTheme);
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
     });
   };
 

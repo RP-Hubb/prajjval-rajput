@@ -93,31 +93,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Marquee Ticker */}
-      <div className="w-full border-y-4 border-border overflow-hidden bg-accent text-black py-4 flex flex-nowrap items-center font-bold uppercase font-mono tracking-widest text-2xl whitespace-nowrap">
-        <motion.div 
-          className="flex gap-8 px-4"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 15, repeat: Infinity }}
-        >
-          <span>PYTHON DEVELOPER</span>
-          <span>•</span>
-          <span>DATA ARCHITECTURE</span>
-          <span>•</span>
-          <span>RIGOROUS ENGINEERING</span>
-          <span>•</span>
-          <span>NEXT.JS FRONTENDS</span>
-          <span>•</span>
-          <span>PYTHON DEVELOPER</span>
-          <span>•</span>
-          <span>DATA ARCHITECTURE</span>
-          <span>•</span>
-          <span>RIGOROUS ENGINEERING</span>
-          <span>•</span>
-          <span>NEXT.JS FRONTENDS</span>
-          <span>•</span>
-        </motion.div>
-      </div>
+
 
       {/* Featured Work Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8">
