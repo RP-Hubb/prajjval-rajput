@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
@@ -8,6 +7,7 @@ import { projects } from "@/data/projects";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/Magnetic";
 import { useCursor } from "@/context/CursorContext";
+import { HeroPhoto } from "@/components/HeroPhoto";
 
 const FADE_UP_ANIMATION_VARIANTS: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -75,20 +75,7 @@ export default function Home() {
           </div>
           
           <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="col-span-1 lg:col-span-5 relative flex justify-center lg:justify-end">
-            <div className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem]">
-              {/* Brutalist Shadow / Offset border */}
-              <div className="absolute inset-0 border-4 border-accent translate-x-4 translate-y-4" />
-              <div className="absolute inset-0 border-4 border-border bg-card overflow-hidden">
-                <Image
-                  src="/photo.png"
-                  alt="Prajjval Rajput"
-                  fill
-                  priority
-                  className="object-cover object-center transition-all duration-700"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
+            <HeroPhoto />
           </motion.div>
         </motion.div>
       </section>
