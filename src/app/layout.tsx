@@ -7,6 +7,7 @@ import { Navigation } from "@/components/Navigation";
 import { PageWrapper } from "@/components/PageWrapper";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Noise } from "@/components/Noise";
+import { Footer } from "@/components/Footer";
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
@@ -70,6 +71,7 @@ export default function RootLayout({
                   {children}
                 </main>
               </PageWrapper>
+              <Footer />
             </SmoothScroll>
           </CursorProvider>
         </ThemeProvider>

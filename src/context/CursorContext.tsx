@@ -23,6 +23,7 @@ export function CursorProvider({ children }: { children: ReactNode }) {
     // Reset cursor when route changes
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCursorType("default");
+    setCursorText("");
   }, [pathname]);
 
   return (

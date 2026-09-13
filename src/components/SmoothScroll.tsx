@@ -15,6 +15,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       touchMultiplier: 2,
     });
 
+    // Expose lenis instance on window for programmatic controls (e.g. Footer back-to-top)
+    (window as unknown as { lenis?: unknown }).lenis = lenis;
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -23,6 +26,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     requestAnimationFrame(raf);
 
     return () => {
+      delete (window as unknown as { lenis?: unknown }).lenis;
       lenis.destroy();
     };
   }, []);

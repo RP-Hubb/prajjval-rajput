@@ -13,8 +13,16 @@ const FADE_UP: Variants = {
 };
 
 export default function Work() {
-  const { setCursorType } = useCursor();
+  const { setCursorType, setCursorText } = useCursor();
   
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--x", `${x}px`);
+    e.currentTarget.style.setProperty("--y", `${y}px`);
+  };
+
   const getProjectsByCategory = (category: string) => projects.filter(p => p.category === category);
   
   const flagship = getProjectsByCategory("Flagship")[0];
@@ -57,22 +65,30 @@ export default function Work() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative flex flex-col bg-card border-4 border-border p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 h-full"
-                onMouseEnter={() => setCursorType("hover")}
-                onMouseLeave={() => setCursorType("default")}
+                className="group relative flex flex-col bg-card border-4 border-border p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 h-full overflow-hidden"
+                onMouseMove={handleCardMouseMove}
+                onMouseEnter={() => {
+                  setCursorType("hover");
+                  setCursorText("VIEW");
+                }}
+                onMouseLeave={() => {
+                  setCursorType("default");
+                  setCursorText("");
+                }}
               >
-                <div className="flex flex-col gap-2 mb-6">
+                <div className="project-card-spotlight" aria-hidden="true" />
+                <div className="relative z-10 flex flex-col gap-2 mb-6">
                   <div className="font-mono text-xs font-bold text-accent uppercase tracking-widest bg-black px-2 py-1 w-max border-2 border-accent mb-2">
                     {project.category}
                   </div>
                   <h3 className="text-3xl font-bold uppercase tracking-tight text-foreground group-hover:text-accent transition-colors">{project.title}</h3>
                 </div>
                 
-                <p className="text-muted font-mono text-sm leading-relaxed mb-8 flex-1">
+                <p className="relative z-10 text-muted font-mono text-sm leading-relaxed mb-8 flex-1">
                   {project.description}
                 </p>
 
-                <div className="flex flex-col gap-6 mt-auto">
+                <div className="relative z-10 flex flex-col gap-6 mt-auto">
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map(tech => (
                       <span key={tech} className="text-xs font-mono font-bold bg-muted/10 text-foreground px-2 py-1 border border-border">
@@ -86,7 +102,7 @@ export default function Work() {
                   </div>
                 </div>
                 
-                <Link href={`/work/${project.id}`} className="absolute inset-0 z-10">
+                <Link href={`/work/${project.id}`} className="absolute inset-0 z-20">
                   <span className="sr-only">View {project.title}</span>
                 </Link>
               </motion.div>
@@ -101,9 +117,19 @@ export default function Work() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="group relative bg-card border-4 border-border p-8 lg:p-12 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
+            className="group relative bg-card border-4 border-border p-8 lg:p-12 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 overflow-hidden"
+            onMouseMove={handleCardMouseMove}
+            onMouseEnter={() => {
+              setCursorType("hover");
+              setCursorText("VIEW");
+            }}
+            onMouseLeave={() => {
+              setCursorType("default");
+              setCursorText("");
+            }}
           >
-            <div className="max-w-2xl flex flex-col gap-6">
+            <div className="project-card-spotlight" aria-hidden="true" />
+            <div className="relative z-10 max-w-2xl flex flex-col gap-6">
               <h3 className="text-4xl font-bold uppercase tracking-tight text-foreground">{quantLab.title}</h3>
               <p className="text-muted font-mono text-sm leading-relaxed">
                 {quantLab.description}
@@ -119,9 +145,15 @@ export default function Work() {
                 href={quantLab.github} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors w-max bg-foreground text-background px-4 py-2 border-2 border-foreground hover:bg-background hover:brutalist-shadow"
-                onMouseEnter={() => setCursorType("hover")}
-                onMouseLeave={() => setCursorType("default")}
+                className="relative z-20 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors w-max bg-foreground text-background px-4 py-2 border-2 border-foreground hover:bg-background hover:brutalist-shadow"
+                onMouseEnter={() => {
+                  setCursorType("hover");
+                  setCursorText("VIEW");
+                }}
+                onMouseLeave={() => {
+                  setCursorType("default");
+                  setCursorText("");
+                }}
               >
                 <FaGithub size={16} /> View on GitHub
               </a>

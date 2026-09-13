@@ -1,20 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, AnimatePresence } from "framer-motion";
+import { useCursor } from "@/context/CursorContext";
 
 export function CustomCursor() {
+  const { cursorType, cursorText } = useCursor();
   const [isVisible, setIsVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
 
-  // Use MotionValues to avoid React re-renders on mousemove
+  // Direct MotionValues for 1:1 hardware synchronization (zero lag with OS cursor)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Smooth springs for cursor movement
+  // Smooth spring physics for size, hover expansion, and label entrance
   const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
-  const smoothX = useSpring(cursorX, springConfig);
-  const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -24,19 +24,22 @@ export function CustomCursor() {
     };
 
     const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
     
     // Click effects
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mousemove", updateMousePosition, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
     };
@@ -47,32 +50,69 @@ export function CustomCursor() {
     return null;
   }
 
-  // Define variants for different cursor states, integrating click logic
+  const hasText = Boolean(cursorText && cursorText.trim().length > 0);
+
+  // GPU-only transform variants using scale (base 64px) for 60fps/120fps compositor animations
   const variants = {
     default: {
-      width: isClicking ? 8 : 16,
-      height: isClicking ? 8 : 16,
+      scale: isClicking ? 0.125 : 0.25, // 8px : 16px
       backgroundColor: "var(--color-accent)",
       mixBlendMode: "normal" as const,
-      opacity: isVisible ? 1 : 0,
-    }
+      opacity: isVisible && cursorType !== "hidden" ? 1 : 0,
+    },
+    hover: {
+      scale: isClicking ? 0.35 : 0.44, // ~22px : ~28px
+      backgroundColor: "var(--color-accent)",
+      mixBlendMode: "normal" as const,
+      opacity: isVisible && cursorType !== "hidden" ? 1 : 0,
+    },
+    text: {
+      scale: isClicking ? 0.88 : 1, // ~56px : 64px
+      backgroundColor: "var(--color-accent)",
+      mixBlendMode: "normal" as const,
+      opacity: isVisible && cursorType !== "hidden" ? 1 : 0,
+    },
   };
+
+  const currentVariant = hasText ? "text" : cursorType === "hover" ? "hover" : "default";
 
   return (
     <motion.div
-      className="fixed top-0 left-0 z-[99999] pointer-events-none"
+      className="fixed top-0 left-0 z-[99999] pointer-events-none select-none w-0 h-0"
       style={{
-        x: smoothX,
-        y: smoothY,
+        x: cursorX,
+        y: cursorY,
       }}
     >
       <motion.div
-        className="relative -left-1/2 -top-1/2 rounded-full flex items-center justify-center text-white font-mono text-xs font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+        data-cursor-dot="true"
+        className="custom-cursor-dot w-16 h-16 !rounded-full flex items-center justify-center text-black font-mono shadow-[0_0_20px_rgba(0,0,0,0.25)] overflow-hidden"
+        style={{
+          borderRadius: "9999px",
+          marginLeft: "-32px",
+          marginTop: "-32px",
+          transformOrigin: "center center",
+        }}
         variants={variants}
-        animate="default"
-        initial="hidden"
-        transition={{ type: "tween", ease: "backOut", duration: 0.3 }}
-      />
+        animate={currentVariant}
+        initial="default"
+        transition={{ type: "spring", ...springConfig }}
+      >
+        <AnimatePresence mode="wait">
+          {hasText && (
+            <motion.span
+              key={cursorText}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.85 }}
+              transition={{ type: "spring", ...springConfig }}
+              className="font-mono text-[10px] font-bold tracking-widest uppercase text-black select-none pointer-events-none text-center leading-none"
+            >
+              {cursorText}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </motion.div>
   );
 }

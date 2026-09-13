@@ -17,7 +17,15 @@ const FADE_UP_ANIMATION_VARIANTS: Variants = {
 export default function Home() {
   const flagshipProject = projects.find(p => p.id === "asthma-v2");
   const featuredProject = projects.find(p => p.id === "dsa-visualizer");
-  const { setCursorType } = useCursor();
+  const { setCursorType, setCursorText } = useCursor();
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--x", `${x}px`);
+    e.currentTarget.style.setProperty("--y", `${y}px`);
+  };
 
   return (
     <div className="flex flex-col gap-24 pb-24 overflow-hidden">
@@ -106,11 +114,19 @@ export default function Home() {
             {/* Flagship Project */}
             {flagshipProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
-                onMouseEnter={() => setCursorType("hover")}
-                onMouseLeave={() => setCursorType("default")}
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 overflow-hidden"
+                onMouseMove={handleCardMouseMove}
+                onMouseEnter={() => {
+                  setCursorType("hover");
+                  setCursorText("VIEW");
+                }}
+                onMouseLeave={() => {
+                  setCursorType("default");
+                  setCursorText("");
+                }}
               >
-                <div className="flex flex-col gap-2">
+                <div className="project-card-spotlight" aria-hidden="true" />
+                <div className="relative z-10 flex flex-col gap-2">
                   <div className="font-mono text-xs font-bold text-accent uppercase tracking-widest bg-black px-2 py-1 w-max border-2 border-accent">
                     {flagshipProject.category}
                   </div>
@@ -119,11 +135,11 @@ export default function Home() {
                   </h3>
                 </div>
                 
-                <p className="text-muted leading-relaxed flex-1 font-mono text-sm">
+                <p className="relative z-10 text-muted leading-relaxed flex-1 font-mono text-sm">
                   {flagshipProject.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mt-auto pt-6">
+                <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-6">
                   {flagshipProject.technologies.slice(0, 4).map(tech => (
                     <span key={tech} className="text-xs font-mono font-bold bg-muted/10 text-foreground px-2 py-1 border border-border">
                       {tech}
@@ -131,7 +147,7 @@ export default function Home() {
                   ))}
                 </div>
                 
-                <Link href={`/work/${flagshipProject.id}`} className="absolute inset-0 z-10">
+                <Link href={`/work/${flagshipProject.id}`} className="absolute inset-0 z-20">
                   <span className="sr-only">View {flagshipProject.title}</span>
                 </Link>
               </div>
@@ -140,11 +156,19 @@ export default function Home() {
             {/* Featured Project */}
             {featuredProject && (
               <div 
-                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300"
-                onMouseEnter={() => setCursorType("hover")}
-                onMouseLeave={() => setCursorType("default")}
+                className="group relative flex flex-col gap-6 bg-card border-4 border-border p-6 lg:p-8 hover:border-accent hover:brutalist-shadow-hover transition-all duration-300 overflow-hidden"
+                onMouseMove={handleCardMouseMove}
+                onMouseEnter={() => {
+                  setCursorType("hover");
+                  setCursorText("VIEW");
+                }}
+                onMouseLeave={() => {
+                  setCursorType("default");
+                  setCursorText("");
+                }}
               >
-                <div className="flex flex-col gap-2">
+                <div className="project-card-spotlight" aria-hidden="true" />
+                <div className="relative z-10 flex flex-col gap-2">
                   <div className="font-mono text-xs font-bold text-muted uppercase tracking-widest bg-black px-2 py-1 w-max border-2 border-border group-hover:border-accent group-hover:text-accent transition-colors">
                     {featuredProject.category}
                   </div>
@@ -153,11 +177,11 @@ export default function Home() {
                   </h3>
                 </div>
                 
-                <p className="text-muted leading-relaxed flex-1 font-mono text-sm">
+                <p className="relative z-10 text-muted leading-relaxed flex-1 font-mono text-sm">
                   {featuredProject.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mt-auto pt-6">
+                <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-6">
                   {featuredProject.technologies.slice(0, 4).map(tech => (
                     <span key={tech} className="text-xs font-mono font-bold bg-muted/10 text-foreground px-2 py-1 border border-border">
                       {tech}
@@ -165,7 +189,7 @@ export default function Home() {
                   ))}
                 </div>
                 
-                <Link href={`/work/${featuredProject.id}`} className="absolute inset-0 z-10">
+                <Link href={`/work/${featuredProject.id}`} className="absolute inset-0 z-20">
                   <span className="sr-only">View {featuredProject.title}</span>
                 </Link>
               </div>
