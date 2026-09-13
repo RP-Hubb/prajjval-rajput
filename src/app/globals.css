@@ -78,11 +78,13 @@ html, body {
   overflow-x: hidden !important;
 }
 
-/* Force hide native system cursor on devices with fine pointer and hover capability */
-@media (hover: hover) and (pointer: fine) {
-  html, body, *, *::before, *::after {
-    cursor: none !important;
-  }
+/* Only hide native system cursor when CustomCursor is active and confirmed on fine-pointer devices */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor *,
+html.has-custom-cursor *::before,
+html.has-custom-cursor *::after {
+  cursor: none !important;
 }
 
 /* Ensure keyboard accessibility since we stripped default outlines in many places */

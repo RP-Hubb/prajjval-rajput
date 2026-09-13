@@ -86,6 +86,7 @@ export function Footer() {
                 <span>TOP</span>
                 <ArrowUp
                   size={14}
+                  aria-hidden="true"
                   className="transition-transform group-hover:-translate-y-0.5 group-hover:text-accent"
                 />
               </button>
@@ -106,11 +107,12 @@ export function Footer() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${link.name} (opens in new tab)`}
                   onMouseEnter={() => setCursorType("hover")}
                   onMouseLeave={() => setCursorType("default")}
                   className="group inline-flex items-center gap-2 px-3.5 py-2 border-2 border-border bg-card text-foreground hover:border-accent hover:text-accent hover:shadow-[2px_2px_0px_0px_var(--color-accent)] active:translate-x-0.5 active:translate-y-0.5 transition-all font-mono text-xs uppercase tracking-wider font-bold"
                 >
-                  <Icon size={14} className="text-foreground group-hover:text-accent transition-colors" />
+                  <Icon size={14} aria-hidden="true" className="text-foreground group-hover:text-accent transition-colors" />
                   <span>{link.name}</span>
                 </a>
               </Magnetic>

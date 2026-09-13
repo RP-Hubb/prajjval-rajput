@@ -9,6 +9,8 @@ export function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
 
+  const [hasFinePointer, setHasFinePointer] = useState(false);
+
   // Direct MotionValues for 1:1 hardware synchronization (zero lag with OS cursor)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -16,7 +18,43 @@ export function CustomCursor() {
   // Smooth spring physics for size, hover expansion, and label entrance
   const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
 
+  // Detect and track fine pointer capability via media query listener
   useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    
+    const updatePointerStatus = () => {
+      const isFine = mediaQuery.matches;
+      setHasFinePointer(isFine);
+      if (isFine) {
+        document.documentElement.classList.add("has-custom-cursor");
+      } else {
+        document.documentElement.classList.remove("has-custom-cursor");
+      }
+    };
+
+    updatePointerStatus();
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", updatePointerStatus);
+    } else {
+      mediaQuery.addListener(updatePointerStatus);
+    }
+
+    return () => {
+      document.documentElement.classList.remove("has-custom-cursor");
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener("change", updatePointerStatus);
+      } else {
+        mediaQuery.removeListener(updatePointerStatus);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasFinePointer) return;
+
     const updateMousePosition = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -43,10 +81,10 @@ export function CustomCursor() {
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isVisible, cursorX, cursorY]);
+  }, [isVisible, cursorX, cursorY, hasFinePointer]);
 
-  // Don't render cursor on mobile/touch devices
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+  // Don't render cursor unless fine pointer capability is confirmed on the client
+  if (!hasFinePointer) {
     return null;
   }
 

@@ -55,7 +55,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       onMouseEnter={() => setCursorType("hover")}
       onMouseLeave={() => setCursorType("default")}
-      className="relative flex items-center justify-center w-10 h-10 border-2 border-border bg-card text-foreground transition-all duration-300 hover:border-accent hover:brutalist-shadow-hover overflow-hidden group focus:outline-none"
+      className="relative flex items-center justify-center w-10 h-10 border-2 border-border bg-card text-foreground transition-all duration-300 hover:border-accent hover:brutalist-shadow-hover overflow-hidden group focus-visible:outline-2 focus-visible:outline-accent"
       aria-label="Toggle theme"
     >
       <motion.div
@@ -67,7 +67,7 @@ export function ThemeToggle() {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="absolute"
       >
-        <Moon size={20} className="group-hover:text-accent transition-colors" />
+        <Moon size={20} aria-hidden="true" className="group-hover:text-accent transition-colors" />
       </motion.div>
 
       <motion.div
@@ -79,7 +79,7 @@ export function ThemeToggle() {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="absolute"
       >
-        <Sun size={20} className="group-hover:text-accent transition-colors" />
+        <Sun size={20} aria-hidden="true" className="group-hover:text-accent transition-colors" />
       </motion.div>
     </button>
   );

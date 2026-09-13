@@ -92,7 +92,7 @@ export default async function ProjectPage({ params }: PageProps) {
   return (
     <article className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24 max-w-4xl">
       <Link href="/work" className="inline-flex items-center gap-2 text-sm font-mono text-muted hover:text-foreground transition-colors mb-12">
-        <ArrowLeft size={16} /> Back to Work
+        <ArrowLeft size={16} aria-hidden="true" /> Back to Work
       </Link>
 
       <div className="flex flex-col gap-6 border-b border-border pb-12">
@@ -117,8 +117,13 @@ export default async function ProjectPage({ params }: PageProps) {
         {project.github && (
           <div className="mt-6 flex flex-wrap gap-4">
             <Button asChild variant="outline">
-              <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <FaGithub size={16} className="mr-2" />
+              <a 
+                href={project.github} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label={`View ${project.title} repository on GitHub (opens in new tab)`}
+              >
+                <FaGithub size={16} aria-hidden="true" className="mr-2" />
                 View Repository
               </a>
             </Button>

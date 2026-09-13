@@ -23,7 +23,7 @@ export default function About() {
         {/* Header */}
         <div className="flex flex-col gap-6">
           <motion.div variants={FADE_UP} className="flex items-center gap-2 text-muted font-mono text-sm uppercase tracking-wider">
-            <Terminal size={16} />
+            <Terminal size={16} aria-hidden="true" />
             <span>About Me</span>
           </motion.div>
           <motion.h1 variants={FADE_UP} className="text-4xl sm:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] text-foreground">
@@ -47,7 +47,7 @@ export default function About() {
         {/* Experience */}
         <motion.section variants={FADE_UP} className="flex flex-col gap-8 border-t border-border pt-12">
           <div className="flex items-center gap-3 text-2xl font-serif text-foreground">
-            <Briefcase size={24} className="text-accent" />
+            <Briefcase size={24} aria-hidden="true" className="text-accent" />
             <h2>Experience</h2>
           </div>
           
@@ -67,7 +67,7 @@ export default function About() {
         {/* Education */}
         <motion.section variants={FADE_UP} className="flex flex-col gap-8 border-t border-border pt-12">
           <div className="flex items-center gap-3 text-2xl font-serif text-foreground">
-            <GraduationCap size={24} className="text-accent" />
+            <GraduationCap size={24} aria-hidden="true" className="text-accent" />
             <h2>Education</h2>
           </div>
           
@@ -83,7 +83,7 @@ export default function About() {
         {/* Skills */}
         <motion.section variants={FADE_UP} className="flex flex-col gap-8 border-t border-border pt-12">
           <div className="flex items-center gap-3 text-2xl font-serif text-foreground">
-            <Code size={24} className="text-accent" />
+            <Code size={24} aria-hidden="true" className="text-accent" />
             <h2>Capabilities</h2>
           </div>
           

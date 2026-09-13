@@ -59,12 +59,13 @@ export default function Contact() {
             <Magnetic strength={10}>
               <a 
                 href="mailto:rraj21054@gmail.com"
+                aria-label="Send an email to rraj21054@gmail.com"
                 className="group flex flex-col gap-2 p-6 bg-card border border-border hover:border-accent transition-colors block w-full"
               >
-                <Mail size={24} className="text-foreground group-hover:text-accent transition-colors mb-2" />
+                <Mail size={24} aria-hidden="true" className="text-foreground group-hover:text-accent transition-colors mb-2" />
                 <span className="text-lg font-medium text-foreground">rraj21054@gmail.com</span>
                 <span className="text-sm text-muted flex items-center gap-2">
-                  Send an email <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">→</span>
+                  Send an email <span aria-hidden="true" className="text-accent opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">→</span>
                 </span>
               </a>
             </Magnetic>
@@ -80,10 +81,11 @@ export default function Contact() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`${link.name} profile (${link.handle}, opens in new tab)`}
                     className="group flex items-center justify-between p-4 bg-card border border-border hover:border-accent transition-colors block w-full"
                   >
                     <div className="flex items-center gap-4 text-foreground group-hover:text-accent transition-colors">
-                      {link.icon}
+                      <span aria-hidden="true">{link.icon}</span>
                       <span className="font-medium">{link.name}</span>
                     </div>
                     <span className="text-sm font-mono text-muted">{link.handle}</span>

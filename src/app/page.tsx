@@ -47,7 +47,7 @@ export default function Home() {
         >
           <div className="col-span-1 lg:col-span-7 flex flex-col gap-6">
             <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="flex items-center gap-2 text-accent font-mono text-xs uppercase tracking-[0.2em] font-bold">
-              <Terminal size={14} className="text-foreground" />
+              <Terminal size={14} aria-hidden="true" className="text-foreground" />
               <span>Prajjval Rajput</span>
             </motion.div>
             
@@ -70,7 +70,7 @@ export default function Home() {
                 <Button asChild size="lg">
                   <Link href="/work">
                     View My Work
-                    <ArrowRight size={16} className="ml-2" />
+                    <ArrowRight size={16} aria-hidden="true" className="ml-2" />
                   </Link>
                 </Button>
               </Magnetic>
@@ -106,7 +106,7 @@ export default function Home() {
               onMouseEnter={() => setCursorType("hover")}
               onMouseLeave={() => setCursorType("default")}
             >
-              View all <ArrowRight size={16} />
+              View all <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
 

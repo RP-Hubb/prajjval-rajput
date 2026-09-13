@@ -5,16 +5,22 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
 gsap.registerPlugin(useGSAP);
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 
 function ScrambleText({ text, duration }: { text: string; duration: number }) {
-  // Initialize with the target text to maintain purity for SSR/hydration. 
-  // The useEffect will instantly scramble it on mount.
   const [displayText, setDisplayText] = useState(text);
+  const prefersReducedMotion = usePrefersReducedMotion();
   
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplayText(text);
+      return;
+    }
+
     let frame = 0;
     const totalFrames = (duration / 1000) * 60; // Assuming 60fps
     let animationFrame: number;
@@ -25,17 +31,13 @@ function ScrambleText({ text, duration }: { text: string; duration: number }) {
       
       let newText = "";
       for (let i = 0; i < text.length; i++) {
-        // Calculate when this specific character should lock in
-        // We stagger them so they lock from left to right
-        const lockInPoint = (i / text.length) * 0.8; // finish locking by 80% of the total duration
+        const lockInPoint = (i / text.length) * 0.8;
         
         if (text[i] === " ") {
           newText += " ";
         } else if (progress > lockInPoint) {
-          // Locked in
           newText += text[i];
         } else {
-          // Still scrambling
           newText += CHARS[Math.floor(Math.random() * CHARS.length)];
         }
       }
@@ -45,16 +47,15 @@ function ScrambleText({ text, duration }: { text: string; duration: number }) {
       if (frame < totalFrames) {
         animationFrame = requestAnimationFrame(animate);
       } else {
-        setDisplayText(text); // Ensure final state is exactly the target
+        setDisplayText(text);
       }
     };
 
     animationFrame = requestAnimationFrame(animate);
     
     return () => cancelAnimationFrame(animationFrame);
-  }, [text, duration]);
+  }, [text, duration, prefersReducedMotion]);
 
-  // Render the text with the locked characters highlighted (optional)
   return (
     <span className="font-mono tracking-widest break-all">
       {displayText.split("").map((char, i) => {
@@ -79,9 +80,18 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const progressRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const scanlineRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      onComplete();
+    }
+  }, [prefersReducedMotion, onComplete]);
 
   useGSAP(
     () => {
+      if (prefersReducedMotion) return;
+
       const tl = gsap.timeline({
         onComplete: () => {
           onComplete(); 
@@ -110,8 +120,12 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       );
       
     },
-    { scope: container }
+    { scope: container, dependencies: [prefersReducedMotion] }
   );
+
+  if (prefersReducedMotion) {
+    return null;
+  }
 
   return (
     <motion.div

@@ -59,7 +59,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-black overflow-x-hidden`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col cursor-none bg-background relative overflow-x-hidden w-full" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col bg-background relative overflow-x-hidden w-full" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Noise />
           <CursorProvider>

@@ -98,7 +98,7 @@ export default function Work() {
                   </div>
                   
                   <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider group-hover:text-accent transition-colors">
-                    Read Case Study <ArrowRight size={16} />
+                    Read Case Study <ArrowRight size={16} aria-hidden="true" />
                   </div>
                 </div>
                 
@@ -145,6 +145,7 @@ export default function Work() {
                 href={quantLab.github} 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                aria-label={`View ${quantLab.title} on GitHub (opens in new tab)`}
                 className="relative z-20 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors w-max bg-foreground text-background px-4 py-2 border-2 border-foreground hover:bg-background hover:brutalist-shadow"
                 onMouseEnter={() => {
                   setCursorType("hover");
@@ -155,7 +156,7 @@ export default function Work() {
                   setCursorText("");
                 }}
               >
-                <FaGithub size={16} /> View on GitHub
+                <FaGithub size={16} aria-hidden="true" /> View on GitHub
               </a>
             </div>
           </motion.div>
@@ -190,11 +191,12 @@ export default function Work() {
                     href={project.github} 
                     target="_blank" 
                     rel="noopener noreferrer" 
+                    aria-label={`View ${project.title} on GitHub (opens in new tab)`}
                     className="text-muted hover:text-accent p-2 -mr-2 transition-colors"
                     onMouseEnter={() => setCursorType("hover")}
                     onMouseLeave={() => setCursorType("default")}
                   >
-                    <FaGithub size={20} />
+                    <FaGithub size={20} aria-hidden="true" />
                   </a>
                 </div>
               </motion.div>

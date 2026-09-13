@@ -35,13 +35,14 @@ export function Navigation() {
         </div>
         
         <div className="flex w-full sm:w-auto items-center justify-between sm:justify-end gap-2 sm:gap-6 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
-          <nav className="flex gap-2 sm:gap-4 shrink-0">
+          <nav className="flex gap-2 sm:gap-4 shrink-0" aria-label="Main navigation">
             {navItems.map((item) => {
               const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
               return (
                 <Magnetic key={item.path} strength={10}>
                   <Link
                     href={item.path}
+                    aria-current={isActive ? "page" : undefined}
                     className={cn(
                       "relative px-2 sm:px-3 py-1.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors hover:text-accent",
                       isActive ? "text-accent" : "text-muted"

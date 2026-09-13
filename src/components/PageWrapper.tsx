@@ -21,7 +21,7 @@ export function PageWrapper({ children }: { children: React.ReactNode }) {
         {isLoading && <Preloader onComplete={handleComplete} />}
       </AnimatePresence>
 
-      <div className={`transition-opacity duration-1000 ${isLoading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
+      <div className={`transition-opacity duration-1000 motion-reduce:transition-none motion-reduce:duration-0 ${isLoading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
         <main className="flex-1 w-full">{children}</main>
       </div>
     </>

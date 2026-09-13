@@ -48,7 +48,7 @@ export function HeroPhoto() {
   };
 
   return (
-    <div className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem] group cursor-none" style={{ perspective: "1000px" }}>
+    <div className="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[30rem] group" style={{ perspective: "1000px" }}>
       {/* 
         Outer wrapper establishes the 3D perspective.
         The motion.div rotates in 3D space based on mouse position.
