@@ -8,6 +8,8 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Noise } from "@/components/Noise";
 import { Footer } from "@/components/Footer";
+import { TerminalOverlay } from "@/components/TerminalOverlay";
+import { CommandPalette } from "@/components/CommandPalette";
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
@@ -73,6 +75,8 @@ export default function RootLayout({
               </PageWrapper>
               <Footer />
             </SmoothScroll>
+            <TerminalOverlay />
+            <CommandPalette />
           </CursorProvider>
         </ThemeProvider>
       </body>

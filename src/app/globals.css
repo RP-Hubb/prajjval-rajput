@@ -65,6 +65,32 @@
     -webkit-text-stroke: 1px var(--color-accent);
     color: transparent;
   }
+
+  /* Terminal Scrollbar */
+  .terminal-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .terminal-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .terminal-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+  }
+  .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+  }
+
+  /* Command Palette Group Heading */
+  [cmdk-group-heading] {
+    user-select: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+    padding: 0.5rem 0.75rem 0.25rem;
+    font-weight: 700;
+  }
 }
 
 body {

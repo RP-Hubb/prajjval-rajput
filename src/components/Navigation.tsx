@@ -14,10 +14,13 @@ const navItems = [
   { name: "Contact", path: "/contact" },
 ];
 
+import { Search } from "lucide-react";
+import { useCursor } from "@/context/CursorContext";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navigation() {
   const pathname = usePathname();
+  const { setCursorType } = useCursor();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b-4 border-border">
@@ -29,7 +32,15 @@ export function Navigation() {
           >
             PRAJJVAL RAJPUT
           </Link>
-          <div className="sm:hidden flex items-center">
+          <div className="sm:hidden flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+              aria-label="Open command palette (Cmd+K)"
+              className="flex items-center justify-center w-10 h-10 border-2 border-border bg-card text-foreground hover:border-accent hover:text-accent font-mono text-xs font-bold transition-all"
+            >
+              <Search size={16} aria-hidden="true" />
+            </button>
             <ThemeToggle />
           </div>
         </div>
@@ -62,8 +73,21 @@ export function Navigation() {
               );
             })}
           </nav>
-          <div className="hidden sm:block h-8 w-[2px] bg-border mx-2" />
-          <div className="hidden sm:block shrink-0">
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            <Magnetic strength={5}>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+                onMouseEnter={() => setCursorType("hover")}
+                onMouseLeave={() => setCursorType("default")}
+                aria-label="Open command palette (Cmd+K)"
+                className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-card text-foreground hover:border-accent hover:text-accent hover:shadow-[2px_2px_0px_0px_var(--color-accent)] font-mono text-xs font-bold uppercase transition-all select-none focus-visible:outline-2 focus-visible:outline-accent"
+              >
+                <Search size={14} aria-hidden="true" />
+                <span className="text-[10px] text-muted border border-border px-1 py-0.5 bg-background">⌘K</span>
+              </button>
+            </Magnetic>
+            <div className="h-8 w-[2px] bg-border mx-1" />
             <ThemeToggle />
           </div>
         </div>
