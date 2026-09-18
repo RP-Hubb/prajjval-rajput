@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 import { Terminal, X, CornerDownLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Magnetic } from "./Magnetic";
@@ -29,7 +29,7 @@ export function TerminalOverlay() {
   const [commandHistory, setCommandHistory] = React.useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = React.useState<number>(-1);
 
-  const router = useRouter();
+  const router = useTransitionRouter();
   const { setCursorType, setCursorText } = useCursor();
 
   const inputRef = React.useRef<HTMLInputElement>(null);

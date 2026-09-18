@@ -160,22 +160,22 @@ html.has-custom-cursor *::after {
 
 
 
-/* View Transitions for Theme Toggle Ripple */
+/* View Transitions Configuration */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-/* We only animate the new view if the class is applied */
-::view-transition-new(root) {
+/* 1. Theme Toggle Ripple (scoped to theme-transitioning) */
+html.theme-transitioning::view-transition-new(root) {
   animation: theme-ripple 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.dark::view-transition-old(root) {
+html.theme-transitioning.dark::view-transition-old(root) {
   z-index: 1;
 }
-.dark::view-transition-new(root) {
+html.theme-transitioning.dark::view-transition-new(root) {
   z-index: 9999;
 }
 
@@ -185,5 +185,45 @@ html.has-custom-cursor *::after {
   }
   100% {
     clip-path: circle(var(--theme-radius) at var(--theme-x) var(--theme-y));
+  }
+}
+
+/* 2. Brutalist Route Navigation Wipe (Hard-edged Clip-Path Shutter) */
+html:not(.theme-transitioning)::view-transition-old(root) {
+  animation: brutalist-wipe-old 0.4s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+  z-index: 1;
+}
+
+html:not(.theme-transitioning)::view-transition-new(root) {
+  animation: brutalist-wipe-new 0.4s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+  z-index: 2;
+}
+
+@keyframes brutalist-wipe-old {
+  from {
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+  to {
+    transform: translateY(-24px);
+    filter: brightness(0.85);
+  }
+}
+
+@keyframes brutalist-wipe-new {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Reduced Motion Override for View Transitions */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

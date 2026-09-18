@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 import { flushSync } from "react-dom";
 import { Command } from "cmdk";
 import { useTheme } from "next-themes";
@@ -23,7 +24,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const router = useRouter();
+  const router = useTransitionRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -96,10 +97,16 @@ export function CommandPalette() {
         `${Math.hypot(window.innerWidth, window.innerHeight)}px`
       );
 
-      document.startViewTransition(() => {
+      document.documentElement.classList.add("theme-transitioning");
+
+      const transition = document.startViewTransition(() => {
         flushSync(() => {
           setTheme(nextTheme);
         });
+      });
+
+      transition.finished.finally(() => {
+        document.documentElement.classList.remove("theme-transitioning");
       });
     } else {
       setTheme(nextTheme);

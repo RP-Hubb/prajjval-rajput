@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
 import { projects } from "@/data/projects";

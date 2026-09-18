@@ -43,10 +43,16 @@ export function ThemeToggle() {
     document.documentElement.style.setProperty("--theme-y", `${y}px`);
     document.documentElement.style.setProperty("--theme-radius", `${endRadius}px`);
 
-    document.startViewTransition(() => {
+    document.documentElement.classList.add("theme-transitioning");
+
+    const transition = document.startViewTransition(() => {
       flushSync(() => {
         setTheme(nextTheme);
       });
+    });
+
+    transition.finished.finally(() => {
+      document.documentElement.classList.remove("theme-transitioning");
     });
   };
 

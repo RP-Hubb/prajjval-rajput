@@ -10,6 +10,7 @@ import { Noise } from "@/components/Noise";
 import { Footer } from "@/components/Footer";
 import { TerminalOverlay } from "@/components/TerminalOverlay";
 import { CommandPalette } from "@/components/CommandPalette";
+import { ViewTransitions } from "next-view-transitions";
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
@@ -56,30 +57,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-black overflow-x-hidden`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen flex flex-col bg-background relative overflow-x-hidden w-full" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Noise />
-          <CursorProvider>
-            <CustomCursor />
-            <SmoothScroll>
-              <Navigation />
-              <PageWrapper>
-                <main className="flex-1 w-full pt-16 z-10 relative">
-                  {children}
-                </main>
-              </PageWrapper>
-              <Footer />
-            </SmoothScroll>
-            <TerminalOverlay />
-            <CommandPalette />
-          </CursorProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html
+        lang="en"
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-black overflow-x-hidden`}
+        suppressHydrationWarning
+      >
+        <body className="min-h-screen flex flex-col bg-background relative overflow-x-hidden w-full" suppressHydrationWarning>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <Noise />
+            <CursorProvider>
+              <CustomCursor />
+              <SmoothScroll>
+                <Navigation />
+                <PageWrapper>
+                  <main className="flex-1 w-full pt-16 z-10 relative">
+                    {children}
+                  </main>
+                </PageWrapper>
+                <Footer />
+              </SmoothScroll>
+              <TerminalOverlay />
+              <CommandPalette />
+            </CursorProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

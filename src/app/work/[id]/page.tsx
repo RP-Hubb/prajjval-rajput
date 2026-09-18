@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
 import { ArrowLeft } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/Button";
 
 type PageProps = {
